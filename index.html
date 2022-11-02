@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="A Stimulus controller that registers a MapLibre map with some configurations." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet" />
+
+    <title>Stimulus Maplibre Controller</title>
+
+    <script type="module" defer>
+      import { Application } from "@hotwired/stimulus";
+      import Maplibre from "./src/index";
+
+      const application = Application.start();
+      application.register("maplibre", Maplibre);
+    </script>
+  </head>
+
+  <body>
+    <div data-controller="maplibre" class="p-4">
+      <button
+        data-action="click->maplibre#greet"
+        type="button"
+        class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border rounded shadow"
+      >
+        Hey map!
+      </button>
+    </div>
+  </body>
+</html>

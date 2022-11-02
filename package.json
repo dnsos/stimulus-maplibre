@@ -13,7 +13,7 @@
   "author": "Dennis Ostendorf",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite"
   },
   "devDependencies": {
     "@babel/core": "7.19.6",
