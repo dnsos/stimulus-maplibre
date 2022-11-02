@@ -10,6 +10,10 @@
     "map"
   ],
   "license": "MIT",
+  "repository": "git@github.com:dnsos/stimulus-maplibre.git",
+  "bugs": {
+    "url": "https://github.com/dnsos/stimulus-maplibre/issues"
+  },
   "author": "Dennis Ostendorf",
   "main": "index.js",
   "scripts": {
