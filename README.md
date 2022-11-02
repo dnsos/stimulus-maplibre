@@ -5,7 +5,7 @@ A Stimulus controller that registers a MapLibre map with some configurations.
 ## Roadmap
 
 - [x] get basic repo setup done (according to stimulus-components examples)
-- [ ] implement first, simplest version of attaching a map with this (simple OSM basemap)
+- [x] implement first, simplest version of attaching a map with this
 - [ ] add test setup and first test stub
 - [ ] ...
 
@@ -24,3 +24,9 @@ npm run dev
 ```
 
 > You will then be able to work on the controller making use of its use in `index.html`.
+
+## Usage
+
+### Prerequisites
+
+- add the Maplibre CSS in your own HTML (?)
