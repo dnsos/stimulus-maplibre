@@ -28,5 +28,8 @@
     "prettier-standard": "16.4.1",
     "typescript": "4.8.4",
     "vite": "3.2.2"
+  },
+  "dependencies": {
+    "maplibre-gl": "2.4.0"
   }
 }
