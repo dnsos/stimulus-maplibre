@@ -2,14 +2,6 @@
 
 A Stimulus controller that registers a MapLibre map with some configurations.
 
-## Roadmap
-
-- [x] get basic repo setup done (according to stimulus-components examples)
-- [x] implement first, simplest version of attaching a map with this
-- [x] add more features
-- [x] add test setup and first test stub
-- [ ] add marker center option
-
 ## Developing
 
 Install dependencies:
@@ -24,11 +16,15 @@ Start a development server:
 npm run dev
 ```
 
-> You will then be able to work on the controller making use of its use in `index.html`.
+Run the tests:
+
+```bash
+npm run test
+```
 
 ## Usage
 
 ### Prerequisites
 
-- add the Maplibre CSS in your own HTML (?)
-- peer dependencies?
+- The Maplibre CSS has to be present in your own HTML
+- Peer dependencies? Which?
