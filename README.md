@@ -6,8 +6,9 @@ A Stimulus controller that registers a MapLibre map with some configurations.
 
 - [x] get basic repo setup done (according to stimulus-components examples)
 - [x] implement first, simplest version of attaching a map with this
-- [ ] add test setup and first test stub
-- [ ] ...
+- [x] add more features
+- [x] add test setup and first test stub
+- [ ] add marker center option
 
 ## Developing
 
@@ -30,3 +31,4 @@ npm run dev
 ### Prerequisites
 
 - add the Maplibre CSS in your own HTML (?)
+- peer dependencies?
