@@ -20,15 +20,11 @@
   </head>
 
   <body>
-    <div data-controller="maplibre" class="p-4">
-      <button
-        data-action="click->maplibre#greet"
-        type="button"
-        class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border rounded shadow"
-      >
-        Hey map!
-      </button>
-      <div id="map" class="w-96 h-96"></div>
-    </div>
+    <div
+      data-controller="maplibre"
+      data-maplibre-center-value="13.404954,52.520008"
+      data-maplibre-zoom-value="16"
+      class="w-screen h-96"
+    ></div>
   </body>
 </html>
