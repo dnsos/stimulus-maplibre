@@ -18,6 +18,9 @@ export default class extends Controller {
 
   declare interactiveValue: boolean;
 
+  declare markerCenterValue: string;
+  declare hasMarkerCenterValue: boolean;
+
   static values = {
     center: { type: String, default: "13.404954,52.520008" },
     zoom: { type: Number, default: 11 },
@@ -25,11 +28,12 @@ export default class extends Controller {
     maxZoom: { type: Number, default: 22 },
     styleUrl: String,
     interactive: { type: Boolean, default: true },
+    markerCenter: String,
   };
 
   connect(): void {
     this.checkContainerDimensions();
-    const hasValidCenter = this.hasValidCenter();
+    const hasValidCenter = this.isValidCenterString(this.centerValue);
 
     if (!hasValidCenter) return;
 
@@ -42,6 +46,20 @@ export default class extends Controller {
       maxZoom: this.maxZoomValue,
       interactive: this.interactiveValue,
     });
+
+    if (this.hasMarkerCenterValue) {
+      const hasValidMarkerCenter = this.isValidCenterString(
+        this.markerCenterValue
+      );
+
+      if (!hasValidMarkerCenter) {
+        console.error("The value for the marker center is not valid");
+        return;
+      }
+      new maplibregl.Marker()
+        .setLngLat([this.markerLongitude, this.markerLatitude])
+        .addTo(this.map);
+    }
   }
 
   get mapStyle(): string | StyleSpecification {
@@ -86,7 +104,7 @@ export default class extends Controller {
     previousCenterValue: number
   ): void {
     if (newCenterValue !== previousCenterValue) {
-      const hasValidCenter = this.hasValidCenter();
+      const hasValidCenter = this.isValidCenterString(this.centerValue);
       if (!this.map || !hasValidCenter) return;
       this.map.easeTo({
         center: [this.longitude, this.latitude],
@@ -102,14 +120,12 @@ export default class extends Controller {
     }
   }
 
-  hasValidCenter(): boolean {
-    const [longitude, latitude] = this.centerValue.split(",");
+  isValidCenterString(rawCenterString: string): boolean {
+    const [longitude, latitude] = rawCenterString.split(",");
     const parsedLongitude = parseFloat(longitude);
     const parsedLatitude = parseFloat(latitude);
     if (!parsedLongitude || !parsedLatitude) {
-      console.error(
-        "Please provide valid longitude and latitude in the shape of `13.123456,52.123456` for the center value"
-      );
+      console.error("Please provide valid longitude and latitude values");
       return false;
     }
     return true;
@@ -122,5 +138,14 @@ export default class extends Controller {
   get longitude(): number {
     const [longitude] = this.centerValue.split(",");
     return parseFloat(longitude);
+  }
+
+  get markerLatitude(): number {
+    const [, markerLatitude] = this.markerCenterValue.split(",");
+    return parseFloat(markerLatitude);
+  }
+  get markerLongitude(): number {
+    const [markerLongitude] = this.markerCenterValue.split(",");
+    return parseFloat(markerLongitude);
   }
 }
