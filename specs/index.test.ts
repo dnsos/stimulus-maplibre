@@ -26,7 +26,7 @@ describe("stimulus-maplibre", () => {
     startStimulus();
   });
 
-  test("errors with invalid latitude or longitude", async () => {
+  test("errors with invalid latitude or longitude for map", async () => {
     document.body.innerHTML = `
       <div
         style="width: 500px; height: 500px;"
@@ -37,7 +37,24 @@ describe("stimulus-maplibre", () => {
 
     await waitFor(() => {
       expect(console.error).toHaveBeenLastCalledWith(
-        "Please provide valid longitude and latitude in the shape of `13.123456,52.123456` for the center value"
+        "Please provide valid longitude and latitude values"
+      );
+    });
+  });
+
+  test("errors with invalid latitude or longitude for marker", async () => {
+    document.body.innerHTML = `
+      <div
+        style="width: 500px; height: 500px;"
+        data-controller="maplibre"
+        data-maplibre-center-value="13.12345,52.12345"
+        data-maplibre-marker-center-value="13.12345,abc"
+      ></div>.
+    `;
+
+    await waitFor(() => {
+      expect(console.error).toHaveBeenLastCalledWith(
+        "Please provide valid longitude and latitude values"
       );
     });
   });
