@@ -29,10 +29,14 @@ describe("stimulus-maplibre", () => {
   test("errors with invalid latitude or longitude for map", async () => {
     document.body.innerHTML = `
       <div
-        style="width: 500px; height: 500px;"
         data-controller="maplibre"
         data-maplibre-center-value="abc,52.12345"
-      ></div>.
+      >
+        <div
+          data-maplibre-target="mapContainer"
+          style="width: 500px; height: 500px;"
+        ></div>
+      </div>.
     `;
 
     await waitFor(() => {
@@ -45,11 +49,15 @@ describe("stimulus-maplibre", () => {
   test("errors with invalid latitude or longitude for marker", async () => {
     document.body.innerHTML = `
       <div
-        style="width: 500px; height: 500px;"
         data-controller="maplibre"
         data-maplibre-center-value="13.12345,52.12345"
         data-maplibre-marker-center-value="13.12345,abc"
-      ></div>.
+      >
+      <div
+        data-maplibre-target="mapContainer"
+        style="width: 500px; height: 500px;"
+      ></div>
+      </div>.
     `;
 
     await waitFor(() => {
