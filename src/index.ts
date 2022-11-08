@@ -21,6 +21,9 @@ export default class extends Controller {
   declare markerCenterValue: string;
   declare hasMarkerCenterValue: boolean;
 
+  declare styleSpecificationValue: object;
+  declare hasStyleSpecificationValue: boolean;
+
   static values = {
     center: { type: String, default: "13.404954,52.520008" },
     zoom: { type: Number, default: 11 },
@@ -29,6 +32,7 @@ export default class extends Controller {
     styleUrl: String,
     interactive: { type: Boolean, default: true },
     markerCenter: String,
+    styleSpecification: Object,
   };
 
   connect(): void {
@@ -36,6 +40,10 @@ export default class extends Controller {
     const hasValidCenter = this.isValidCenterString(this.centerValue);
 
     if (!hasValidCenter) return;
+
+    const hasValidStyle = this.hasValidStyle();
+
+    if (!hasValidStyle) return;
 
     this.map = new maplibregl.Map({
       container: this.element as HTMLElement,
@@ -62,32 +70,33 @@ export default class extends Controller {
     }
   }
 
-  get mapStyle(): string | StyleSpecification {
-    return this.hasStyleUrlValue && this.styleUrlValue.length > 0
-      ? this.styleUrlValue
-      : this.defaultMapStyle;
+  hasValidStyle(): boolean {
+    if (
+      this.hasStyleSpecificationValue &&
+      this.hasStyleUrlValue &&
+      this.styleUrlValue.length > 0
+    ) {
+      console.warn(
+        "You provided both a style URL and a style specification. In this case the style URL is used, but you might want to resolve this double assignment."
+      );
+    }
+
+    if (!this.hasStyleSpecificationValue && !this.hasStyleUrlValue) {
+      console.error("No style value was provided");
+      return false;
+    } else {
+      return true;
+    }
   }
 
-  get defaultMapStyle(): StyleSpecification {
-    return {
-      version: 8,
-      sources: {
-        osm: {
-          type: "raster",
-          tiles: ["https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"],
-          tileSize: 256,
-          attribution: "&copy; OpenStreetMap Contributors",
-          maxzoom: 19,
-        },
-      },
-      layers: [
-        {
-          id: "osm",
-          type: "raster",
-          source: "osm", // This must match the source key above
-        },
-      ],
-    };
+  /**
+   * The map's style. Style URL is used if provided.
+   * Otherwise, falls back to style specification.
+   */
+  get mapStyle(): string | StyleSpecification {
+    return (
+      this.styleUrlValue || (this.styleSpecificationValue as StyleSpecification)
+    );
   }
 
   zoomValueChanged(newZoomValue: number, previousZoomValue: number): void {

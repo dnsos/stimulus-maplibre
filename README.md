@@ -12,16 +12,19 @@ You can currently:
 - define a zoom level
 - define a min and max zoom level
 - define if the map should be interactive
-- use your own style URL (defaults to a basic Open Street Maps raster tile)
+- use your own style URL or style specification
 - define coordinates which should display a marker
 
 ![Stimulus MapLibre hero image](/images/stimulus-maplibre-hero.png)
 
 ## Todo's
 
-- [ ] Remove default OSM style and require active provision of style URL? (see the [OSM policy](https://operations.osmfoundation.org/policies/tiles/))
+- [x] Remove default OSM style and require active provision of style URL? (see the [OSM policy](https://operations.osmfoundation.org/policies/tiles/))
 - [ ] figure out NPM publishing
 - [ ] enhance docs
+- [ ] setup GitHub Action for CI
+- [ ] improve error messages (more specific)
+- [ ] consider removing marker functionaloty as it may be too specific (this should really only handle the basics)
 
 ## Developing
 

@@ -36,7 +36,7 @@ describe("stimulus-maplibre", () => {
     `;
 
     await waitFor(() => {
-      expect(console.error).toHaveBeenLastCalledWith(
+      expect(console.error).toHaveBeenCalledWith(
         "Please provide valid longitude and latitude values"
       );
     });
@@ -53,9 +53,24 @@ describe("stimulus-maplibre", () => {
     `;
 
     await waitFor(() => {
-      expect(console.error).toHaveBeenLastCalledWith(
+      expect(console.error).toHaveBeenCalledWith(
         "Please provide valid longitude and latitude values"
       );
+    });
+  });
+
+  test("errors without a style value (either style URL or style spec)", async () => {
+    document.body.innerHTML = `
+      <div
+        style="width: 500px; height: 500px;"
+        data-controller="maplibre"
+        data-maplibre-center-value="13.12345,52.12345"
+        data-maplibre-marker-center-value="13.12345,52.12345"
+      ></div>.
+    `;
+
+    await waitFor(() => {
+      expect(console.error).toHaveBeenCalledWith("No style value was provided");
     });
   });
 });
