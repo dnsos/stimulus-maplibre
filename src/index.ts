@@ -35,18 +35,26 @@ export default class extends Controller {
     styleSpecification: Object,
   };
 
+  declare readonly hasMapContainerTarget: boolean;
+  declare readonly mapContainerTarget: HTMLElement;
+  declare readonly mapContainerTargets: HTMLElement[];
+
+  static targets = ["mapContainer"];
+
   connect(): void {
-    this.checkContainerDimensions();
+    const hasValidMapContainer = this.mapContainerTargetIsValid();
+    const hasValidMapContainerSize = this.mapContainerTargetHasValidSize();
     const hasValidCenter = this.isValidCenterString(this.centerValue);
 
-    if (!hasValidCenter) return;
+    if (!hasValidMapContainer || !hasValidMapContainerSize || !hasValidCenter)
+      return;
 
     const hasValidStyle = this.hasValidStyle();
 
     if (!hasValidStyle) return;
 
     this.map = new maplibregl.Map({
-      container: this.element as HTMLElement,
+      container: this.mapContainerTarget,
       style: this.mapStyle,
       center: [this.longitude, this.latitude],
       zoom: this.zoomValue,
@@ -121,11 +129,34 @@ export default class extends Controller {
     }
   }
 
-  checkContainerDimensions(): void {
-    if (this.element.clientWidth === 0 || this.element.clientHeight === 0) {
-      console.warn(
-        "The map is not visible because either the map container's height or width is zero."
+  mapContainerTargetHasValidSize(): boolean {
+    if (
+      this.mapContainerTarget.clientWidth === 0 ||
+      this.mapContainerTarget.clientHeight === 0
+    ) {
+      console.error(
+        "The map was not rendered because either the map container's height or width is zero."
       );
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  mapContainerTargetIsValid(): boolean {
+    switch (true) {
+      case !this.hasMapContainerTarget:
+        console.error(
+          `No map container was found. Please add an element with the property data-maplibre-target="mapContainer".`
+        );
+        return false;
+      case this.mapContainerTargets.length > 1:
+        console.error(
+          `Multiple map containers were found. Please define only one element with the property data-maplibre-target="mapContainer".`
+        );
+        return false;
+      default:
+        return true;
     }
   }
 
