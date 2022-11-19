@@ -13,3 +13,4 @@ vite.config.js
 .prettierignore
 .prettierrc
 images
+.eslintignore
