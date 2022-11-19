@@ -41,13 +41,15 @@ export default class extends Controller {
     const hasValidMapContainer = this.mapContainerTargetIsValid();
     const hasValidMapContainerSize = this.mapContainerTargetHasValidSize();
     const hasValidCenter = this.isValidCenterString(this.centerValue);
-
-    if (!hasValidMapContainer || !hasValidMapContainerSize || !hasValidCenter)
-      return;
-
     const hasValidStyle = this.hasValidStyle();
 
-    if (!hasValidStyle) return;
+    if (
+      !hasValidMapContainer ||
+      !hasValidMapContainerSize ||
+      !hasValidCenter ||
+      !hasValidStyle
+    )
+      return;
 
     this.map = new maplibregl.Map({
       container: this.mapContainerTarget,
