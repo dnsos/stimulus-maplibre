@@ -22,7 +22,7 @@ You can currently:
 
 - [x] Remove default OSM style and require active provision of style URL? (see the [OSM policy](https://operations.osmfoundation.org/policies/tiles/))
 - [x] general housekeeping
-- [ ] figure out NPM publishing
+- [x] figure out NPM publishing
 - [ ] enhance docs
 - [x] setup GitHub Action for CI
 - [ ] improve error messages (more specific)
