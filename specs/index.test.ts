@@ -36,28 +36,7 @@ describe("stimulus-maplibre", () => {
           data-maplibre-target="mapContainer"
           style="width: 500px; height: 500px;"
         ></div>
-      </div>.
-    `;
-
-    await waitFor(() => {
-      expect(console.error).toHaveBeenCalledWith(
-        "Please provide valid longitude and latitude values"
-      );
-    });
-  });
-
-  test("errors with invalid latitude or longitude for marker", async () => {
-    document.body.innerHTML = `
-      <div
-        data-controller="maplibre"
-        data-maplibre-center-value="13.12345,52.12345"
-        data-maplibre-marker-center-value="13.12345,abc"
-      >
-      <div
-        data-maplibre-target="mapContainer"
-        style="width: 500px; height: 500px;"
-      ></div>
-      </div>.
+      </div>
     `;
 
     await waitFor(() => {
@@ -70,11 +49,14 @@ describe("stimulus-maplibre", () => {
   test("errors without a style value (either style URL or style spec)", async () => {
     document.body.innerHTML = `
       <div
-        style="width: 500px; height: 500px;"
         data-controller="maplibre"
-        data-maplibre-center-value="13.12345,52.12345"
-        data-maplibre-marker-center-value="13.12345,52.12345"
-      ></div>.
+        data-maplibre-center-value="13.1234,52.12345"
+      >
+        <div
+          data-maplibre-target="mapContainer"
+          style="width: 500px; height: 500px;"
+        ></div>
+      </div>
     `;
 
     await waitFor(() => {
