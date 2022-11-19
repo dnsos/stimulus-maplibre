@@ -18,9 +18,6 @@ export default class extends Controller {
 
   declare interactiveValue: boolean;
 
-  declare markerCenterValue: string;
-  declare hasMarkerCenterValue: boolean;
-
   declare styleSpecificationValue: object;
   declare hasStyleSpecificationValue: boolean;
 
@@ -31,7 +28,6 @@ export default class extends Controller {
     maxZoom: { type: Number, default: 22 },
     styleUrl: String,
     interactive: { type: Boolean, default: true },
-    markerCenter: String,
     styleSpecification: Object,
   };
 
@@ -62,22 +58,12 @@ export default class extends Controller {
       maxZoom: this.maxZoomValue,
       interactive: this.interactiveValue,
     });
-
-    if (this.hasMarkerCenterValue) {
-      const hasValidMarkerCenter = this.isValidCenterString(
-        this.markerCenterValue
-      );
-
-      if (!hasValidMarkerCenter) {
-        console.error("The value for the marker center is not valid");
-        return;
-      }
-      new maplibregl.Marker()
-        .setLngLat([this.markerLongitude, this.markerLatitude])
-        .addTo(this.map);
-    }
   }
 
+  /**
+   * Checks whether the a valid style was provided.
+   * @returns boolean
+   */
   hasValidStyle(): boolean {
     if (
       this.hasStyleSpecificationValue &&
@@ -100,6 +86,7 @@ export default class extends Controller {
   /**
    * The map's style. Style URL is used if provided.
    * Otherwise, falls back to style specification.
+   * @returns string | StyleSpecification
    */
   get mapStyle(): string | StyleSpecification {
     return (
@@ -107,6 +94,12 @@ export default class extends Controller {
     );
   }
 
+  /**
+   * Whenever the zoom value changes, ease the map to the requested zoom level.
+   * @param newZoomValue number
+   * @param previousZoomValue number
+   * @returns void
+   */
   zoomValueChanged(newZoomValue: number, previousZoomValue: number): void {
     if (newZoomValue !== previousZoomValue) {
       if (!this.map) return;
@@ -116,6 +109,12 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Whenever the center value changes, ease the map to the requested center coordinates.
+   * @param newCenterValue number
+   * @param previousCenterValue number
+   * @returns void
+   */
   centerValueChanged(
     newCenterValue: number,
     previousCenterValue: number
@@ -129,6 +128,10 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Checks whether the map container DOM element has a size that makes it visible.
+   * @returns boolean
+   */
   mapContainerTargetHasValidSize(): boolean {
     if (
       this.mapContainerTarget.clientWidth === 0 ||
@@ -143,6 +146,10 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Checks whether the map container DOM element exists and is unique.
+   * @returns boolean
+   */
   mapContainerTargetIsValid(): boolean {
     switch (true) {
       case !this.hasMapContainerTarget:
@@ -160,6 +167,11 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Parses given string and checks whether a valid latitude and longitude can be constructed from it.
+   * @param rawCenterString string
+   * @returns boolean
+   */
   isValidCenterString(rawCenterString: string): boolean {
     const [longitude, latitude] = rawCenterString.split(",");
     const parsedLongitude = parseFloat(longitude);
@@ -171,21 +183,21 @@ export default class extends Controller {
     return true;
   }
 
+  /**
+   * Returns the latitude value from the center string.
+   * @returns number
+   */
   get latitude(): number {
     const [, latitude] = this.centerValue.split(",");
     return parseFloat(latitude);
   }
+
+  /**
+   * Returns the longitude value from the center string.
+   * @returns number
+   */
   get longitude(): number {
     const [longitude] = this.centerValue.split(",");
     return parseFloat(longitude);
-  }
-
-  get markerLatitude(): number {
-    const [, markerLatitude] = this.markerCenterValue.split(",");
-    return parseFloat(markerLatitude);
-  }
-  get markerLongitude(): number {
-    const [markerLongitude] = this.markerCenterValue.split(",");
-    return parseFloat(markerLongitude);
   }
 }
